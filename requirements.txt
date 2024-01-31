@@ -1,0 +1,7 @@
+torch
+torchvision
+scikit-image
+scikit-learn
+matplotlib
+tqdm
+jupyter
