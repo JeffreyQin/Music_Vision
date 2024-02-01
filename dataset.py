@@ -1,4 +1,3 @@
-
 import torch
 from torch import utils
 import pandas as pd 
@@ -11,14 +10,13 @@ from img_utils import *
 
 class ScoreTransform(object):
     def __init__(self):
-
         self.height = 100
-        self.width = 30
+        self.width = 500
         
     def __call__(self, img):
+        img = enhance_image(img)
         img = remove_white_border(img)
-        img = rescale_image(img, self.width, self.height)
-        
+        img = rescale_image(img, self.width, self.height) 
         return img
     
     
@@ -38,7 +36,6 @@ class ScoreDataset(utils.data.Dataset):
         return self.num_samples
     
     def __getitem__(self, index):
-
         img = cv2.imread(f'./music_score/images/{index}.png')
         img = self.transform(img)
         label = np.array(self.labels[index], dtype=float)

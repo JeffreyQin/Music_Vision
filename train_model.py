@@ -6,8 +6,9 @@ from tqdm import tqdm
 import numpy as np 
 from dataset import ScoreDataset
 
-d = ScoreDataset()
-print(d.__getitem__(1))
+
+
+
 
 
 
