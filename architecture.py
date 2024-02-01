@@ -9,7 +9,7 @@ class LocalizerModel(nn.Module):
         super(LocalizerModel, self).__init__()
     
     def forward(input):
-
+        return
 
 
 class ClassifierModel(nn.Module):
@@ -17,3 +17,4 @@ class ClassifierModel(nn.Module):
         super(ClassifierModel, self).__init__()
 
     def forward(input):
+        return
