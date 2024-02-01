@@ -1,20 +1,12 @@
 import torch
 from torch import utils, nn
 
-CLASSIFIER_MODEL_PATH = './models/classifier_model.pth'
-LOCALIZER_MODEL_PATH = './models/localizer_model.pth'
+MODEL_PATH = './model/kimchi.py'
 
-class LocalizerModel(nn.Module):
+class Kimchi(nn.Module):
     def __init__(self):
-        super(LocalizerModel, self).__init__()
+        super(Kimchi, self).__init__()
+
+    def forward(input):
+        return
     
-    def forward(input):
-        return
-
-
-class ClassifierModel(nn.Module):
-    def __init__(self):
-        super(ClassifierModel, self).__init__()
-
-    def forward(input):
-        return

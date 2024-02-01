@@ -3,13 +3,11 @@ import cv2
 
 # rename all image data files to indices
 def rename_img_files():
-    chord_img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), './chord_data/images/')
-    measure_img_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), './measure_data/images/')
+    img_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), './music_score/images/')
     
-    for idx, img in enumerate(os.listdir(chord_img_path)):
-        os.rename(chord_img_path + img, chord_img_path + f'{idx}.png')
-    for idx, img in enumerate(os.listdir(measure_img_path)):
-        os.rename(measure_img_path + img, measure_img_path + f'{idx}.png')
+    for idx, img in enumerate(os.listdir(img_folder)):
+        os.rename(img_folder + img, img_folder + f'{idx}.png')
+
 
 # remove white borders at top and bottom of image
 def remove_white_border(img):
@@ -42,14 +40,3 @@ def rescale_image(img, width, height):
 def enhance_image(img):
     return img
 
-
-class ChordTransform(object):
-    def __init__(self):
-
-        self.height = 100
-        self.width = 30
-        
-    def __call__(self, img):
-        img = remove_white_border(img)
-        img = rescale_image(img, self.width, self.height)
-        return img

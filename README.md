@@ -2,6 +2,10 @@
 
 Converts image of piano sheet into encoded notes
 
+## UPDATE UPDATE UPDATE
+
+everything turned into one model now
+
 ## note localization from measure image
 
 

@@ -4,9 +4,9 @@ from sklearn.model_selection import train_test_split
 from tqdm import tqdm
 
 import numpy as np 
-from dataset import ChordDataset
+from dataset import ScoreDataset
 
-d = ChordDataset()
+d = ScoreDataset()
 print(d.__getitem__(1))
 
 
