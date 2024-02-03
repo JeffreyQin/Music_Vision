@@ -15,7 +15,7 @@ def remove_white_border(img):
     border_removed = False
     for y in range(len(img)):
         for x in range(len(img[0])):
-            if img[y][x] != 0:
+            if img[y,x] != 0:
                 y_top = y
                 border_removed = True
                 break
@@ -24,17 +24,31 @@ def remove_white_border(img):
     border_removed = False
     for y in reversed(range(len(img))):
         for x in range(len(img[0])):
-            if img[y][x] != 0:
+            if img[y,x] != 0:
                 y_bottom = y
                 border_removed = True
                 break
         if border_removed:
             break
-    return img[y_top : y_bottom + 1]
+    return img[y_top : y_bottom + 1, :]
+
+
+# shift image for next prediction
+def crop_and_pad(img, shift_size):
+    if shift_size + 1 >= len(img):
+        return False
+    else:
+        img = img[:, shift_size + 1:]
+        for x in range(shift_size):
+            for y in range(len(img)):
+                np.append(img[y], 0)
+        return True
+
 
 # rescale image (distorts aspect ratio)
 def rescale_image(img, width, height):
     return cv2.resize(img, (width, height), interpolation=cv2.INTER_LINEAR)
+
 
 # other processes
 def enhance_image(img):

@@ -10,7 +10,7 @@ from img_utils import *
 
 class ScoreTransform(object):
     def __init__(self):
-        self.height = 100
+        self.height = 
         self.width = 500
         
     def __call__(self, img):
@@ -20,7 +20,6 @@ class ScoreTransform(object):
         return img
     
     
-
 class ScoreDataset(utils.data.Dataset):
     def __init__(self, validation=False):
         super(ScoreDataset, self).__init__()

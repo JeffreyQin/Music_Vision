@@ -19,7 +19,7 @@ flags.DEFINE_boolean('train_saved', False, '')
 
 
 def validate():
-
+    return
 
 
 def train(trainset, testset):
@@ -29,9 +29,14 @@ def train(trainset, testset):
     loss_fn = nn.MSELoss()
 
     train_dataloader = utils.data.DataLoader(trainset, pin_memory=(device=='cuda'), num_workers=0, batch_size=HP.batch, shuffle=False)
-    
-    
-    
+
+    for epoch_idx, epoch in enumerate(range(HP.epochs)):
+        
+        for batch_idx, (imgs, labels) in tqdm(enumerate(train_dataloader)):
+            
+            
+        
+
 
 
 
@@ -43,7 +48,7 @@ def main():
     if choice.lower() == 'n':
         exit()
 
-    model = train(trainset, valset)
+    model = train(trainset, testset)
 
     choice = input('Model trained. Save? (y/n): ')
     if choice.lower() == 'n':
