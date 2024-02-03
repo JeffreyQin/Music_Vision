@@ -1,0 +1,12 @@
+#image-panel {
+    position: relative;
+}
+#image {
+    max-width: 100%;
+}
+.label-line {
+    position: absolute;
+    background-color: yellow;
+    width: 1px;
+    height: 100%;
+}
