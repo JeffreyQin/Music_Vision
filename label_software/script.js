@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
 image.addEventListener('click', (event) => {
     const boundingBox = image.getBoundingClientRect();
     chordX = event.clientX - boundingBox.left
-    Xlabel.innerHTML = `chord ${chordIdx} x: ${chordX}`;
+    Xlabel.innerHTML = `chord ${chordIdx} X: ${chordX}`;
 
     let lineExist = document.querySelector('.label-line');
     if (lineExist) {
@@ -28,7 +28,7 @@ image.addEventListener('click', (event) => {
     }
 
     let labelLine = document.createElement('div');
-    labelLine.className = '.label-line';
+    labelLine.className = 'label-line';
     labelLine.style.left = chordX + 'px';
 
     imagePanel.appendChild(labelLine);
@@ -82,6 +82,10 @@ function constructInputPanel() {
 }
 
 function takeInput() {
+    duration.disabled = true;
+    for (let i = 0; i < 5; i++) {
+        pitch[i].disabled = true;
+    }
     inputList.push({
         index: chordIdx - 1,
         x: chordX,
