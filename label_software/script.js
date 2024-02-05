@@ -1,50 +1,111 @@
+const labelPanel = document.getElementById('label-panel');
 const imagePanel = document.getElementById('image-panel');
-const Xlabel = document.getElementById('x-label');
 const image = document.getElementById('image');
-const finishButton = document.getElementById('finish-button')
-const pitch1 = document.getElementById('pitch1-input')
-const pitch2 = document.getElementById('pitch2-input')
-const pitch3 = document.getElementById('pitch3-input')
-const pitch4 = document.getElementById('pitch4-input')
-const pitch5 = document.getElementById('pitch5-input')
-const fs = require('fs')
 
-var x = -1
+const addButton = document.getElementById('add-button');
+const finishButton = document.getElementById('finish-button');
 
-const rawFolder = './music_score/raw_images/'
-const labelledFolder = './music_sscore/labelled_images/'
+let chordPanel;
+let Xlabel, durationLabel, pitchLabel;
+let duration, pitch;
+var chordIdx = 0
+var chordX = -1
+var inputList = []
 
 document.addEventListener('DOMContentLoaded', () => {
-    
-})
+    chordIdx = 0
+    constructInputPanel();
+});
 
 image.addEventListener('click', (event) => {
     const boundingBox = image.getBoundingClientRect();
-    x = event.clientX - boundingBox.left
-    Xlabel.innerHTML = x
+    chordX = event.clientX - boundingBox.left
+    Xlabel.innerHTML = `chord ${chordIdx} x: ${chordX}`;
 
-    const lineExist = document.querySelector('.label-line');
+    let lineExist = document.querySelector('.label-line');
     if (lineExist) {
         lineExist.remove();
     }
 
-    var labelLine = document.createElement('div');
-    labelLine.className = 'label-line';
-    labelLine.style.left = x + 'px';
+    let labelLine = document.createElement('div');
+    labelLine.className = '.label-line';
+    labelLine.style.left = chordX + 'px';
 
-    imagePanel.appendChild(labelLine)
+    imagePanel.appendChild(labelLine);
+})
+
+addButton.addEventListener('click', () => {
+    if (!checkInput()) {
+        alert('Please fill in all required fields.')
+    } else {
+        takeInput();
+        constructInputPanel();
+    }
 });
 
 finishButton.addEventListener('click', () => {
-    confirmation = confirm('Confirm to proceed? You may not come back.')
-    if (confirmation) {
-        if (x == -1) {
-            alert('No first no border found.')
-        } else if (pitch1.value == '' || pitch2.value == '' || pitch3.value == '' || pitch4.value == '' || pitch5.value == '') {
-            alert('Please fill in all required fields.')
-        } else {
-            processLabel()
-            location.reload()
+    if (!checkInput()) {
+        alert('Please fill in all required fields.')
+    } else {
+        confirmation = confirm('Please confirm to proceed. You cannot come back.')
+        if (confirmation) {
+            takeInput();
+            location.reload();
         }
     }
 });
+
+function constructInputPanel() {
+    chordIdx ++;
+    chordX = -1;
+    chordPanel = document.createElement('div');
+    Xlabel = document.createElement('p');
+    Xlabel.innerHTML = `chord ${chordIdx} X: `;
+    chordPanel.appendChild(Xlabel);
+    durationLabel = document.createElement('label');
+    durationLabel.innerHTML = `chord ${chordIdx} duration: `;
+    chordPanel.appendChild(durationLabel);
+    duration = document.createElement('input');
+    chordPanel.appendChild(duration);
+    chordPanel.appendChild(document.createElement('p'));
+    pitchLabel = document.createElement('label');
+    pitchLabel.innerHTML = `chord ${chordIdx} pitch: `;
+    chordPanel.appendChild(pitchLabel);
+    pitch = [];
+    for (let i = 0; i < 5; i++) {
+        pitch.push(document.createElement('input'));
+        pitch[i].className = 'pitch-input';
+        chordPanel.appendChild(pitch[i]);
+    }
+    chordPanel.appendChild(document.createElement('p'));
+    labelPanel.appendChild(chordPanel);
+}
+
+function takeInput() {
+    inputList.push({
+        index: chordIdx - 1,
+        x: chordX,
+        duration: duration.value,
+        pitch0: pitch[0].value,
+        pitch1: pitch[1].value,
+        pitch2: pitch[2].value,
+        pitch3: pitch[3].value,
+        pitch4: pitch[4].value
+    });
+};
+
+function checkInput() {
+    let lineExist = document.querySelector('.label-line');
+    if (!lineExist) {
+        return false;
+    }
+    if (duration.value == "") {
+        return false;
+    }
+    for (let i = 0; i < 5; i++) {
+        if (pitch[i].value == "") {
+            return false
+        }
+    }
+    return true;
+}
