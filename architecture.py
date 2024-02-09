@@ -14,7 +14,7 @@ class Kimchi(nn.Module):
             nn.Conv2d(in_channels=1, out_channels=4, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(num_features=4),
             nn.ReLU(inplace=True),
-            nn.MaxPool2d(keynel_size=2, stride=2),
+            nn.MaxPool2d(kernel_size=2, stride=2),
 
             nn.Conv2d(in_channels=4, out_channels=8, kernel_size=3, stride=1, padding=1),
             nn.BatchNorm2d(num_features=8),
@@ -22,20 +22,20 @@ class Kimchi(nn.Module):
             nn.MaxPool2d(kernel_size=2, stride=2)
         )
 
-        self.index_embedding = nn.Embedding(num_embeddings=self.chord_idx_range, embedding_dim=8)
+        self.index_embedding = nn.Embedding(num_embeddings=self.chord_idx_range, embedding_dim=128)
         
         self.linear_layers = nn.Sequential(
-            nn.Linear(in_features=8 * 32 * 128, out_features=256),
+            nn.Linear(in_features=8 * 32 * 128 + 128, out_features=256),
             nn.ReLU(inplace=True),
             nn.Linear(in_features=256, out_features=64),
             nn.ReLU(inplace=True),
-            nn.Linear(in_features=64, out_feature=7)
+            nn.Linear(in_features=64, out_features=7)
         )
 
 
     def forward(self, img, idx):
         x_img = self.feature_extraction_layers(img)
-        x_img = x_img.view(-1, 8, 32, 128)
+        x_img = x_img.view(-1, 8 * 32 * 128)
         x_idx = self.index_embedding(idx)
         
         x = torch.cat((x_img, x_idx), dim=1)

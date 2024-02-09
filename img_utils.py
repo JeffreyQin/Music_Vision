@@ -2,12 +2,6 @@ import os
 import cv2
 import numpy as np 
 
-# rename all image data files to indices
-def rename_img_files():
-    img_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), './music_score/images/')
-    
-    for idx, img in enumerate(os.listdir(img_folder)):
-        os.rename(img_folder + img, img_folder + f'{idx}.png')
 
 # remove white borders at top and bottom of image
 def remove_white_border(img):

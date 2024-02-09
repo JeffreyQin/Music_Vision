@@ -2,7 +2,7 @@ import torch
 from torch import utils, optim, nn
 from tqdm import tqdm
 from absl import flags
-import logging
+import logging, os, sys
 
 import numpy as np 
 from dataset import ScoreDataset
@@ -13,7 +13,7 @@ from dataset import dataset_split
 FLAGS = flags.FLAGS
 flags.DEFINE_boolean('debug', False, '')
 flags.DEFINE_boolean('evaluate_saved', False, '')
-flags.DEFINE_boolean('generate_dataset_split', True, '')
+flags.DEFINE_boolean('generate_dataset_split', False, '')
 
 # hyperparams
 HP = flags.FLAGS
@@ -43,7 +43,8 @@ def evaluate(model, device, evalset):
 # training
 def train(trainset, valset):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    model = Kimchi().to(device)
+    model_config = {"max_chord_num": trainset.max_chord_num}
+    model = Kimchi(model_config).to(device)
     optimizer = optim.Adam(model.parameters(), lr=HP.learning_rate)
     loss_fn = nn.MSELoss()
 
@@ -56,8 +57,10 @@ def train(trainset, valset):
         for batch_idx, batch in tqdm(enumerate(train_dataloader)):
             x_img, x_idx = batch['images'].to(device), batch['chord_indices'].to(device)
             y = batch['labels'].to(device)
+            print(y.shape)
 
             prediction = model(x_img, x_idx)
+            print('dasdadasa')
             loss = loss_fn(prediction, y)
             
             optimizer.zero_grad()
@@ -96,6 +99,8 @@ def main():
 
 
 if __name__ == '__main__':
+    FLAGS(sys.argv)
+    HP(sys.argv)
     main()
 
 
