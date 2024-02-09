@@ -8,7 +8,6 @@ import random, json
 from torchvision import transforms
 from img_utils import *
 
-
 def dataset_split(val_split, test_split):
     label_df = pd.read_csv('./music_score/label.csv')
     id = label_df.iloc[:,0]
@@ -61,10 +60,16 @@ class ScoreDataset(utils.data.Dataset):
         return self.num_examples
     
     def __getitem__(self, index):
-        img = cv2.imread(f'./')
-        img = cv2.imread(f'./music_score/images/{index}.png')
+        img = cv2.imread(f'./music_score/labelled_images/{self.images[index]}')
         img = self.transform(img)
-        label = np.array(self.labels[index], dtype=float)
-        return {'image': img, 'label': label}
+        label = self.labels[index]
+
+        example = {"image": img, "chord_idx": self.chord_indices[index], "label": label}
+        return example
     
-    def collate_fn(self, example)
+    def collate_fn(batch):
+        images = [ex['image'] for ex in batch]
+        chord_indices = [ex['chord_idx'] for ex in batch]
+        labels = [ex['label'] for ex in batch]
+        return {'images': images, 'chord_indices': chord_indices, 'labels': labels}
+
