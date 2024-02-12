@@ -1,1 +1,6 @@
 !.gitignore
+
+labelled_images/
+raw_images/
+dataset_split.json
+label.csv
