@@ -5,9 +5,8 @@ from absl import flags
 import logging, os, sys
 
 import numpy as np 
-from dataset import ScoreDataset
 from architecture import Kimchi, MODEL_PATH
-from dataset import dataset_split
+from dataset import ScoreDataset, dataset_split
 
 # mode
 FLAGS = flags.FLAGS
@@ -75,7 +74,6 @@ def train(trainset, valset):
         if epoch_loss < best_loss:
             best_loss = epoch_loss
             torch.save(model.state_dict, MODEL_PATH)
-
 
 
 def main():
