@@ -15,7 +15,7 @@ Labelling Software: JavaScript (express.js), HTML
 
 <img width="403" alt="Screenshot 2024-02-13 115813" src="https://github.com/JeffreyQin/Music_Vision/assets/122770444/7a62838c-e6d7-49d4-a98f-533de77cab97">
 
-Our label contains information about the durations and pitches of all notes in each chord present in the sheet music, as well as a vertical boundary coordinate for each chord. You can label the former by filling in the input fields, and the latter by clicking on the image to create the vertical boundary.
+Our label contains information about the durations and pitches of all notes in each chord present in the sheet music, as well as a vertical boundary coordinate for each chord. You can label the former by filling in the input fields, and the latter by clicking on the image to create the vertical boundary (as shown).
 
 ## Running the model
 
