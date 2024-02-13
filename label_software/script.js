@@ -14,6 +14,7 @@ var inputList = []
 
 document.addEventListener('DOMContentLoaded', () => {
     chordIdx = 0
+    loadImage();
     constructInputPanel();
 });
 
@@ -38,6 +39,8 @@ addButton.addEventListener('click', () => {
     if (!checkInput()) {
         alert('Please fill in all required fields.')
     } else {
+        let lineExist = document.querySelector('.label-line');
+        lineExist.remove();
         takeInput();
         constructInputPanel();
     }
@@ -47,13 +50,39 @@ finishButton.addEventListener('click', () => {
     if (!checkInput()) {
         alert('Please fill in all required fields.')
     } else {
-        confirmation = confirm('Please confirm to proceed. You cannot come back.')
+        let confirmation = confirm('Please confirm to proceed. You cannot come back.');
         if (confirmation) {
+            alert('das')
             takeInput();
-            location.reload();
+            generateLabel();
         }
     }
 });
+
+async function generateLabel() {
+    alert('dsadas')
+    fetch('http://localhost:1109/generateLabel', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json; charset=utf-8"
+        },
+        body: JSON.stringify({
+            image: image.src,
+            labels: inputList
+        })
+    }).then(() => {
+
+    });
+}
+
+function loadImage() {
+    fetch('http://localhost:1109/getImage')
+        .then(result => result.json())
+        .then(result => {
+            const img_file = result['img_file'];
+            image.src = img_file;
+        })
+}
 
 function constructInputPanel() {
     chordIdx ++;
