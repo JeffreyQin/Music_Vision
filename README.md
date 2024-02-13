@@ -3,6 +3,7 @@
 A Convolutional Neural Network trained 100% on original data to locate and identify note sequences from sheet music images into a computer readable format.
 
 Model Pipeline: Python (PyTorch, Scikit-learn, OpenCV, Matplotlib)
+
 Labelling Software: JavaScript (express.js), HTML
 
 
