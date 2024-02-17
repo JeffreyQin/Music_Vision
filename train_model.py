@@ -29,15 +29,19 @@ def evaluate(model, device, evalset):
 
     model.to(device)
     model.eval()
+    running_accuracy = []
     with torch.no_grad():
         for example_idx, example in tqdm(enumerate(eval_dataloader)):
             x_img, x_idx = example['image'].to(device), example['chord_idx'].to(device)
-            y = example['label'].to(device)
 
             prediction = model(x_img, x_idx)
-        
+            rounded_prediction = prediction.squeeze().clone()
+            rounded_prediction[1:] = torch.round(rounded_prediction[1:] * 2) / 2
+
+            num_matches = torch.sum(rounded_prediction == example['label'].squeeze())
+            running_accuracy.append(num_matches / rounded_prediction.shape[0])
     model.train()
-    return accuracy
+    return np.mean(running_accuracy)
 
 # training
 def train(trainset, valset):
