@@ -12,7 +12,7 @@ from dataset import ScoreDataset, dataset_split
 FLAGS = flags.FLAGS
 flags.DEFINE_boolean('debug', False, '')
 flags.DEFINE_boolean('evaluate_saved', False, '')
-flags.DEFINE_boolean('generate_dataset_split', False, '')
+flags.DEFINE_boolean('generate_dataset_split', True, '')
 
 # hyperparams
 HP = flags.FLAGS
@@ -60,17 +60,15 @@ def train(trainset, valset):
         for batch_idx, batch in tqdm(enumerate(train_dataloader)):
             x_img, x_idx = batch['images'].to(device), batch['chord_indices'].to(device)
             y = batch['labels'].to(device)
-            print(y.shape)
 
             prediction = model(x_img, x_idx)
-            print('dasdadasa')
             loss = loss_fn(prediction, y)
             
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
 
-            batch_losses.append(loss)
+            batch_losses.append(loss.detach().numpy())
 
         epoch_loss = np.mean(batch_losses)
         epoch_acc = evaluate(model, device, valset)
