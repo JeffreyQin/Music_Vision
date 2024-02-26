@@ -1,7 +1,7 @@
 import torch
 from torch import utils, nn
 
-MODEL_PATH = './model/kimchi.py'
+MODEL_PATH = './model/kimchi.pt'
 
 class Kimchi(nn.Module):
     def __init__(self, config):
